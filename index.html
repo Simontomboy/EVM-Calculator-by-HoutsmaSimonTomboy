@@ -89,7 +89,7 @@
       const eacMethod = document.getElementById("eacMethod").value;
       const etc = parseFloat(document.getElementById("etc").value) || 0;
 
-      const spi = ev / (bac * (pv / 100));
+      const spi = ev / pv;
       const cpi = ev / ac;
       const vac = bac - ac;
       let eac = 0;
