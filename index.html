@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EVM Calculator - Houtsma Simon</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f4f4f4;
+    }
+    h1 {
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px;
+      width: 100%;
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .result {
+      background: white;
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <h1>📊 EVM Calculator</h1>
+  <p>Dibuat oleh: <strong>Houtsma Simon</strong></p>
+
+  <label>Planned Value (PV) %</label>
+  <input type="number" id="pv" placeholder="Contoh: 60">
+
+  <label>Earned Value (EV) (Rp)</label>
+  <input type="number" id="ev" placeholder="Contoh: 60000000">
+
+  <label>Actual Cost (AC) (Rp)</label>
+  <input type="number" id="ac" placeholder="Contoh: 70000000">
+
+  <label>Budget at Completion (BAC) (Rp)</label>
+  <input type="number" id="bac" placeholder="Contoh: 100000000">
+
+  <label>Pilih Rumus EAC</label>
+  <select id="eacMethod">
+    <option value="1">EAC = BAC / CPI</option>
+    <option value="2">EAC = AC + (BAC - EV)</option>
+    <option value="3">EAC = AC + ((BAC - EV) / (CPI × SPI))</option>
+    <option value="4">EAC = AC + ETC (input manual)</option>
+  </select>
+
+  <div id="etcInput" style="display:none;">
+    <label>Estimate To Complete (ETC) (Rp)</label>
+    <input type="number" id="etc" placeholder="Contoh: 30000000">
+  </div>
+
+  <button onclick="calculate()">Hitung EVM</button>
+
+  <div class="result" id="result" style="display:none;"></div>
+
+  <script>
+    function formatRupiah(angka) {
+      return "Rp " + angka.toLocaleString("id-ID");
+    }
+
+    document.getElementById("eacMethod").addEventListener("change", function() {
+      document.getElementById("etcInput").style.display = this.value === "4" ? "block" : "none";
+    });
+
+    function calculate() {
+      const pv = parseFloat(document.getElementById("pv").value);
+      const ev = parseFloat(document.getElementById("ev").value);
+      const ac = parseFloat(document.getElementById("ac").value);
+      const bac = parseFloat(document.getElementById("bac").value);
+      const eacMethod = document.getElementById("eacMethod").value;
+      const etc = parseFloat(document.getElementById("etc").value) || 0;
+
+      const spi = ev / (bac * (pv / 100));
+      const cpi = ev / ac;
+      const vac = bac - ac;
+      let eac = 0;
+
+      if (eacMethod === "1") {
+        eac = bac / cpi;
+      } else if (eacMethod === "2") {
+        eac = ac + (bac - ev);
+      } else if (eacMethod === "3") {
+        eac = ac + ((bac - ev) / (cpi * spi));
+      } else if (eacMethod === "4") {
+        eac = ac + etc;
+      }
+
+      const result = `
+        <h3>📈 Hasil Perhitungan:</h3>
+        <p><strong>SPI:</strong> ${spi.toFixed(2)}</p>
+        <p><strong>CPI:</strong> ${cpi.toFixed(2)}</p>
+        <p><strong>VAC:</strong> ${formatRupiah(vac)}</p>
+        <p><strong>EAC:</strong> ${formatRupiah(Math.round(eac))}</p>
+      `;
+
+      document.getElementById("result").innerHTML = result;
+      document.getElementById("result").style.display = "block";
+    }
+  </script>
+</body>
+</html>
