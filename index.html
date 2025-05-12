@@ -44,18 +44,18 @@
   <p>Dibuat oleh: <strong>Houtsma Simon</strong></p>
 
   <label>Planned Value (PV) (Rp) </label>
-  <input type="number" id="pv" placeholder="Contoh: 60">
+  <input type="number" id="pv" placeholder="Example: 6000">
 
   <label>Earned Value (EV) (Rp)</label>
-  <input type="number" id="ev" placeholder="Contoh: 60000000">
+  <input type="number" id="ev" placeholder="Example: 7000">
 
   <label>Actual Cost (AC) (Rp)</label>
-  <input type="number" id="ac" placeholder="Contoh: 70000000">
+  <input type="number" id="ac" placeholder="Example: 7000">
 
   <label>Budget at Completion (BAC) (Rp)</label>
-  <input type="number" id="bac" placeholder="Contoh: 100000000">
+  <input type="number" id="bac" placeholder="Example: 6000">
 
-  <label>Pilih Rumus EAC</label>
+  <label> Please Choose EAC Methods </label>
   <select id="eacMethod">
     <option value="1">EAC = BAC / CPI</option>
     <option value="2">EAC = AC + (BAC - EV)</option>
@@ -65,10 +65,10 @@
 
   <div id="etcInput" style="display:none;">
     <label>Estimate To Complete (ETC) (Rp)</label>
-    <input type="number" id="etc" placeholder="Contoh: 30000000">
+    <input type="number" id="etc" placeholder="Example: 3000">
   </div>
 
-  <button onclick="calculate()">Hitung EVM</button>
+  <button onclick="calculate()"> Calculate  EVM</button>
 
   <div class="result" id="result" style="display:none;"></div>
 
@@ -105,7 +105,7 @@
       }
 
       const result = `
-        <h3>📈 Hasil Perhitungan:</h3>
+        <h3>📈 Final Result:</h3>
         <p><strong>SPI:</strong> ${spi.toFixed(2)}</p>
         <p><strong>CPI:</strong> ${cpi.toFixed(2)}</p>
         <p><strong>VAC:</strong> ${formatRupiah(vac)}</p>
